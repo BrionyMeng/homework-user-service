@@ -40,4 +40,8 @@ public class AppUser{
     private ZonedDateTime createdAt;
     private ZonedDateTime updatedAt;
 
+    public AppUser(String name, int age) {
+        this.name=name;
+        this.age=age;
+    }
 }

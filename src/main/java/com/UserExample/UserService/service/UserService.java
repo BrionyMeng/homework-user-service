@@ -26,6 +26,8 @@ public class UserService {
     }
 
     public AppUser createUser(UserInfo userInfo) {
-        return null;
+        AppUser appUser= new AppUser(userInfo.getName(),userInfo.getAge());
+        AppUser appUserSaved=userRepository.save(appUser);
+        return appUserSaved;
     }
 }
