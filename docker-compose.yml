@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+#  flyway-demo-app:
+#    build: .
+#    image: flyway-demo-app:1.0
+#    container_name: flyway-demo-app
+#    ports:
+#      - '8081:8080'
+#    depends_on:
+#      - postgres
+
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: demopwd
+      POSTGRES_USER: demouser
+      POSTGRES_DB: demo_db
+    ports:
+      - '5436:5432'
+

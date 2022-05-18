@@ -14,6 +14,7 @@ import java.sql.Date;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -32,16 +33,13 @@ public class UserServiceTest {
     @Test
     public void shouldReturnUserInfo() {
         //given
-        String userId = "user123";
-        AppUser appUserExpected = new AppUser("user123", "Bruce", 32, Date.from(Instant.now()), Date.from(Instant.now()));
-        GetUserInfoResponse userInfoResponseExpected = new GetUserInfoResponse("user123", "Bruce", 32);
-
-        List<AppUser> expectedUserList = new ArrayList();
-        expectedUserList.add(appUserExpected);
+        Long userId = 123L;
+        AppUser appUserExpected = new AppUser(123L, "Bruce", 32, Date.from(Instant.now()), Date.from(Instant.now()));
+        GetUserInfoResponse userInfoResponseExpected = new GetUserInfoResponse(123L, "Bruce", 32);
 
         //when
-        Mockito.when(userRepository.findByUserId(any(String.class)))
-                .thenReturn(appUserExpected);
+        Mockito.when(userRepository.findByUserId(any(Long.class)))
+                .thenReturn(Optional.of(appUserExpected));
         GetUserInfoResponse getUserInfoResponse = userService.getUserById(userId);
         //then
         assertEquals(getUserInfoResponse.getUserId(), userInfoResponseExpected.getUserId());

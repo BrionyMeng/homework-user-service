@@ -30,14 +30,14 @@ public class userControllerTest {
     @Test
     public void shouldReturnUserInfoWhenGivenCorrectId() throws Exception {
         //given
-        Mockito.when(userService.getUserById(any(String.class))).thenReturn(
-                new GetUserInfoResponse("123", "Bruce", 32)
+        Mockito.when(userService.getUserById(any(Long.class))).thenReturn(
+                new GetUserInfoResponse(123L, "Bruce", 32)
         );
         //when
         //then
-        mvc.perform(MockMvcRequestBuilders.get("/users/userId_1"))
+        mvc.perform(MockMvcRequestBuilders.get("/users/12345"))
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.userId").value("123"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.userId").value(123L))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Bruce"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(32));
     }

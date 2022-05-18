@@ -1,14 +1,14 @@
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5433/world
-    username: postgres
-    password: docker
+    url: jdbc:postgresql://localhost:5436/demo_db
+    username: demouser
+    password: demopwd
 
   flyway:
     enabled: true
     out-of-order: true
     encoding: UTF-8
-    schemas: user_demo
-    user: postgres
-    password: docker
+    schemas: demo_db
+    user: demouser
+    password: demopwd

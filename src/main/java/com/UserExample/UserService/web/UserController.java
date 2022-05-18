@@ -22,6 +22,6 @@ public class UserController {
     @GetMapping("{userId}")
     @ResponseStatus(HttpStatus.OK)
     public GetUserInfoResponse getUserInfoResponse(@PathVariable String userId){
-        return userService.getUserById(userId);
+        return userService.getUserById(Long.parseLong(userId));
     }
 }

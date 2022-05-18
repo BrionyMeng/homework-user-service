@@ -10,7 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GetUserInfoResponse {
-    private String userId;
+    private Long userId;
     private String name;
     private int age;
 }

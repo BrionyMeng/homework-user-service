@@ -1,11 +1,15 @@
 package com.UserExample.UserService.entity;
 
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.Date;
 
@@ -15,19 +19,17 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@ToString
 public class AppUser{
-    private String userId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long userId;
+
+    @NotNull
     private String name;
+
     private int age;
     private Date createdAt;
     private Date updatedAt;
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    @Id
-    public String getUserId() {
-        return userId;
-    }
 }
