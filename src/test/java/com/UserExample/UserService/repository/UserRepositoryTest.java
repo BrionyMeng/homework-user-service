@@ -6,8 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.time.Instant;
-import java.util.Date;
+import java.time.ZonedDateTime;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -22,22 +21,20 @@ public class UserRepositoryTest {
     @Test
     public void shouldFindUserInfoByUserId(){
         //given
-        AppUser mockAppUser=getMockAppUser();
         //when
         AppUser appUser= userRepository.save(getMockAppUser());
-        mockAppUser.setUserId(1L);
         //then
-        Optional<AppUser> appUserReturned = userRepository.findByUserId(1L);
+        Optional<AppUser> appUserReturned = userRepository.findById(appUser.getId());
+        assertEquals(appUser,appUserReturned.get());
 
     }
 
     private AppUser getMockAppUser() {
         AppUser appUser=new AppUser();
-        appUser.setUserId(1234L);
         appUser.setName("Kent");
         appUser.setAge(32);
-        appUser.setCreatedAt(Date.from(Instant.now()));
-        appUser.setUpdatedAt(Date.from(Instant.now()));
+        appUser.setCreatedAt(ZonedDateTime.parse("2022-05-18T16:38:12.267383+08:00[Asia/Shanghai]"));
+        appUser.setUpdatedAt(ZonedDateTime.parse("2022-05-18T16:38:12.267383+08:00[Asia/Shanghai]"));
         return appUser;
     }
 

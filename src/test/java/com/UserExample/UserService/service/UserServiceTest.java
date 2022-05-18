@@ -5,15 +5,9 @@ import com.UserExample.UserService.repository.UserRepository;
 import com.UserExample.UserService.web.dto.GetUserInfoResponse;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.stereotype.Service;
 
-import java.sql.Date;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
+
+import java.time.ZonedDateTime;
 import java.util.Optional;
 
 
@@ -34,17 +28,16 @@ public class UserServiceTest {
     public void shouldReturnUserInfo() {
         //given
         Long userId = 123L;
-        AppUser appUserExpected = new AppUser(123L, "Bruce", 32, Date.from(Instant.now()), Date.from(Instant.now()));
+        AppUser appUserExpected = new AppUser(123L, "Bruce", 32, ZonedDateTime.now(), ZonedDateTime.now());
         GetUserInfoResponse userInfoResponseExpected = new GetUserInfoResponse(123L, "Bruce", 32);
 
         //when
-        Mockito.when(userRepository.findByUserId(any(Long.class)))
+        Mockito.when(userRepository.findById(any(Long.class)))
                 .thenReturn(Optional.of(appUserExpected));
         GetUserInfoResponse getUserInfoResponse = userService.getUserById(userId);
         //then
         assertEquals(getUserInfoResponse.getUserId(), userInfoResponseExpected.getUserId());
         assertEquals(getUserInfoResponse.getName(), userInfoResponseExpected.getName());
         assertEquals(getUserInfoResponse.getAge(), userInfoResponseExpected.getAge());
-
     }
 }

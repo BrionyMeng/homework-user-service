@@ -1,7 +1,14 @@
 spring:
+  jpa:
+    generate-ddl: false
+    hibernate:
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+      ddl-auto: validate
+    show-sql: true
+
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5436/demo_db
+    url: jdbc:postgresql://localhost:5437/user_service
     username: demouser
     password: demopwd
 
@@ -9,6 +16,15 @@ spring:
     enabled: true
     out-of-order: true
     encoding: UTF-8
-    schemas: demo_db
+    schemas: public
     user: demouser
     password: demopwd
+
+
+##log config
+#logging:
+#  level:
+#    root: ERROR
+#    org:
+#      springframework: INFO
+#    sql: DEBUG

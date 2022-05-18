@@ -1,8 +1,8 @@
 CREATE TABLE app_user
 (
-    id         integer      NOT NULL,
-    name       text         NOT NULL,
-    age        character(3) NOT NULL,
-    created_at date         NOT NULL,
-    updated_at date         NOT NULL
+    id         BIGSERIAL PRIMARY KEY,
+    name       varchar(50) NOT NULL,
+    age        int         NOT NULL,
+    created_at timestamp   NOT NULL,
+    updated_at timestamp   NOT NULL
 );
