@@ -7,6 +7,8 @@ import com.UserExample.UserService.web.dto.UserInfo;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -18,7 +20,7 @@ public class UserService {
 
     public GetUserInfoResponse getUserById(Long userId) {
         Optional<AppUser> appUser = userRepository.findById(userId);
-        if(appUser.isPresent()) {
+        if (appUser.isPresent()) {
             AppUser appUserReturned = appUser.get();
             return new GetUserInfoResponse(appUserReturned.getId(), appUserReturned.getName(), appUserReturned.getAge());
         }
@@ -26,8 +28,20 @@ public class UserService {
     }
 
     public AppUser createUser(UserInfo userInfo) {
-        AppUser appUser= new AppUser(userInfo.getName(),userInfo.getAge());
-        AppUser appUserSaved=userRepository.save(appUser);
-        return appUserSaved;
+        AppUser appUser = new AppUser(userInfo.getName(), userInfo.getAge());
+        return userRepository.save(appUser);
+    }
+
+    public List<GetUserInfoResponse> getUserList() {
+        List<AppUser> appUserList = userRepository.findAll();
+        List<GetUserInfoResponse> getUserInfoResponseList = new ArrayList<>();
+        appUserList.forEach(user ->
+                getUserInfoResponseList.add(
+                        new GetUserInfoResponse(
+                                user.getId(),
+                                user.getName(),
+                                user.getAge()
+                        )));
+        return getUserInfoResponseList;
     }
 }

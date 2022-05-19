@@ -5,8 +5,7 @@ import com.UserExample.UserService.service.UserService;
 import com.UserExample.UserService.web.dto.GetUserInfoResponse;
 import com.UserExample.UserService.web.dto.UserInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.minidev.json.JSONObject;
-import net.minidev.json.JSONUtil;
+import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +16,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
-
-import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -34,6 +30,19 @@ public class userControllerTest {
 
     @MockBean
     UserService userService;
+
+
+    @Test
+    public void shouldReturnAppUserList() throws Exception {
+        // given
+        GetUserInfoResponse getUserInfoResponse = new GetUserInfoResponse(1243L, "Diana", 27);
+        Mockito.when(userService.getUserList()).thenReturn(Lists.newArrayList(getUserInfoResponse));
+
+        // when
+        // then
+        mvc.perform(MockMvcRequestBuilders.get("/users"))
+                .andExpect(status().isOk());
+    }
 
     @Test
     public void shouldReturnUserInfoWhenGivenCorrectId() throws Exception {
@@ -53,7 +62,7 @@ public class userControllerTest {
     @Test
     public void shouldReturnCreatedWhenOrderCreatedSucceed() throws Exception {
         //given
-        UserInfo userInfo=new UserInfo("Will",28);
+        UserInfo userInfo = new UserInfo("Will", 28);
 
         Mockito.when(userService.createUser(any(UserInfo.class))).thenReturn(new AppUser());
 

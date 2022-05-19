@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @RestController
 @CrossOrigin
@@ -22,6 +24,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     private final UserService userService;
+
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public List<GetUserInfoResponse> getUserInfoResponsesList(){
+        return userService.getUserList();
+    }
 
     @GetMapping("{userId}")
     @ResponseStatus(HttpStatus.OK)
