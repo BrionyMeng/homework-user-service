@@ -3,6 +3,7 @@ package com.UserExample.UserService.web;
 import com.UserExample.UserService.entity.AppUser;
 import com.UserExample.UserService.service.UserService;
 import com.UserExample.UserService.web.dto.GetUserInfoResponse;
+import com.UserExample.UserService.web.dto.PageInfo;
 import com.UserExample.UserService.web.dto.UserInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.util.Lists;
@@ -30,6 +31,22 @@ public class userControllerTest {
 
     @MockBean
     UserService userService;
+
+
+    @Test
+    public void shouldReturnAppUserListByPage() throws Exception {
+        // given
+        GetUserInfoResponse getUserInfoResponse = new GetUserInfoResponse(1243L, "Diana", 27);
+        Mockito.when(userService.getUserListByPage(any(Integer.class),any(Integer.class)))
+                .thenReturn(Lists.newArrayList(getUserInfoResponse));
+        PageInfo pageInfo= new PageInfo(0,2);
+        // when
+        // then
+        mvc.perform(MockMvcRequestBuilders.get("/users/page")
+                        .content(new ObjectMapper().writeValueAsString(pageInfo))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk());
+    }
 
 
     @Test

@@ -3,6 +3,7 @@ package com.UserExample.UserService.web;
 import com.UserExample.UserService.entity.AppUser;
 import com.UserExample.UserService.service.UserService;
 import com.UserExample.UserService.web.dto.GetUserInfoResponse;
+import com.UserExample.UserService.web.dto.PageInfo;
 import com.UserExample.UserService.web.dto.UserInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -29,6 +30,15 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     public List<GetUserInfoResponse> getUserInfoResponsesList(){
         return userService.getUserList();
+    }
+
+    @GetMapping(path = "/page")
+    @ResponseStatus(HttpStatus.OK)
+    public List<GetUserInfoResponse> getUserInfoResponsesListByPage(@RequestBody PageInfo pageInfo){
+        int pageNo= pageInfo.getPageNo();
+        int pageSize=pageInfo.getPageSize();
+
+        return userService.getUserListByPage(pageNo,pageSize);
     }
 
     @GetMapping("{userId}")

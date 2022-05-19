@@ -5,6 +5,9 @@ import com.UserExample.UserService.repository.UserRepository;
 import com.UserExample.UserService.web.dto.GetUserInfoResponse;
 import com.UserExample.UserService.web.dto.UserInfo;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -36,6 +39,22 @@ public class UserService {
         List<AppUser> appUserList = userRepository.findAll();
         List<GetUserInfoResponse> getUserInfoResponseList = new ArrayList<>();
         appUserList.forEach(user ->
+                getUserInfoResponseList.add(
+                        new GetUserInfoResponse(
+                                user.getId(),
+                                user.getName(),
+                                user.getAge()
+                        )));
+        return getUserInfoResponseList;
+    }
+
+    public List<GetUserInfoResponse> getUserListByPage(Integer pageNo, Integer pageSize) {
+
+        Pageable pageable= PageRequest.of(pageNo,pageSize);
+
+        Slice<AppUser> appUserSlice=userRepository.findAll(pageable);
+        List<GetUserInfoResponse> getUserInfoResponseList = new ArrayList<>();
+        appUserSlice.forEach(user ->
                 getUserInfoResponseList.add(
                         new GetUserInfoResponse(
                                 user.getId(),

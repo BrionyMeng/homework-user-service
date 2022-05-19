@@ -4,9 +4,11 @@ import com.UserExample.UserService.entity.AppUser;
 import com.UserExample.UserService.repository.UserRepository;
 import com.UserExample.UserService.web.dto.GetUserInfoResponse;
 import com.UserExample.UserService.web.dto.UserInfo;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 
 
 import java.time.ZonedDateTime;
@@ -40,6 +42,25 @@ public class UserServiceTest {
         Mockito.when(userRepository.findAll())
                 .thenReturn(appUserListExpected);
         List<GetUserInfoResponse> getUserInfoResponseList = userService.getUserList();
+
+        //then
+        assertEquals(appUserListExpected.size(), getUserInfoResponseList.size());
+        assertEquals(appUserListExpected.get(0).getName(), getUserInfoResponseList.get(0).getName());
+    }
+
+    @Test
+    public void shouldReturnUserInfoListByPage() {
+        // given
+        List<AppUser> appUserListExpected = new ArrayList<>();
+        appUserListExpected.add(new AppUser(123L, "Bruce", 32, ZonedDateTime.now(), ZonedDateTime.now()));
+        appUserListExpected.add(new AppUser(124L, "Ben", 54, ZonedDateTime.now(), ZonedDateTime.now()));
+        appUserListExpected.add(new AppUser(125L, "Jeremy", 74, ZonedDateTime.now(), ZonedDateTime.now()));
+        Page<AppUser> appUserPage=new PageImpl<>(appUserListExpected);
+
+        // when
+        Mockito.when(userRepository.findAll( PageRequest.of(0,2)))
+                .thenReturn(appUserPage);
+        List<GetUserInfoResponse> getUserInfoResponseList = userService.getUserListByPage(0,2);
 
         //then
         assertEquals(appUserListExpected.size(), getUserInfoResponseList.size());
