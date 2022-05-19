@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Entity;
@@ -37,7 +39,11 @@ public class AppUser{
     private String name;
 
     private int age;
+
+    @CreationTimestamp
     private ZonedDateTime createdAt;
+
+    @UpdateTimestamp
     private ZonedDateTime updatedAt;
 
     public AppUser(String name, int age) {
