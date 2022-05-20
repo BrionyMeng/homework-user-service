@@ -2,6 +2,7 @@ package com.UserExample.UserService.web;
 
 import com.UserExample.UserService.entity.AppUser;
 import com.UserExample.UserService.service.UserService;
+import com.UserExample.UserService.web.dto.Criteria;
 import com.UserExample.UserService.web.dto.GetUserInfoResponse;
 import com.UserExample.UserService.web.dto.PageInfo;
 import com.UserExample.UserService.web.dto.UserInfo;
@@ -39,6 +40,12 @@ public class UserController {
         int pageSize=pageInfo.getPageSize();
 
         return userService.getUserListByPage(pageNo,pageSize);
+    }
+
+    @GetMapping(path = "/filter")
+    @ResponseStatus(HttpStatus.OK)
+    public List<GetUserInfoResponse> getUserInfoResponsesListWithCriteria(@RequestBody Criteria criteria){
+        return userService.getUserListWithCriteria(criteria);
     }
 
     @GetMapping("{userId}")

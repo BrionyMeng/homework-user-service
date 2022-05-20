@@ -2,6 +2,7 @@ package com.UserExample.UserService.web;
 
 import com.UserExample.UserService.entity.AppUser;
 import com.UserExample.UserService.service.UserService;
+import com.UserExample.UserService.web.dto.Criteria;
 import com.UserExample.UserService.web.dto.GetUserInfoResponse;
 import com.UserExample.UserService.web.dto.PageInfo;
 import com.UserExample.UserService.web.dto.UserInfo;
@@ -10,21 +11,22 @@ import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-@SpringBootTest
-@AutoConfigureMockMvc
-public class userControllerTest {
+@WebMvcTest(UserController.class)
+public class UserControllerTest {
 
     @Autowired
     private MockMvc mvc;
@@ -32,6 +34,17 @@ public class userControllerTest {
     @MockBean
     UserService userService;
 
+    @Test
+    public void shouldReturnAllUsers() throws Exception {
+        // given
+        GetUserInfoResponse getUserInfoResponse = new GetUserInfoResponse(1243L, "Diana", 27);
+        Mockito.when(userService.getUserList()).thenReturn(Lists.newArrayList(getUserInfoResponse));
+
+        // when
+        // then
+        mvc.perform(MockMvcRequestBuilders.get("/users"))
+                .andExpect(status().isOk());
+    }
 
     @Test
     public void shouldReturnAppUserListByPage() throws Exception {
@@ -48,16 +61,19 @@ public class userControllerTest {
                 .andExpect(status().isOk());
     }
 
-
     @Test
-    public void shouldReturnAppUserList() throws Exception {
-        // given
-        GetUserInfoResponse getUserInfoResponse = new GetUserInfoResponse(1243L, "Diana", 27);
-        Mockito.when(userService.getUserList()).thenReturn(Lists.newArrayList(getUserInfoResponse));
-
-        // when
-        // then
-        mvc.perform(MockMvcRequestBuilders.get("/users"))
+    public void shouldReturnFilteredAppUserList() throws Exception {
+        //given
+        Criteria criteria=new Criteria(new PageInfo(0,5),10,50);
+        List<GetUserInfoResponse> getUserInfoResponseList=new ArrayList<>();
+        getUserInfoResponseList.add(new GetUserInfoResponse(123L, "Bruce", 32));
+        Mockito.when(userService.getUserListWithCriteria(any(Criteria.class))).thenReturn(getUserInfoResponseList);
+        //when
+        //then
+        mvc.perform(MockMvcRequestBuilders.get("/users/filter")
+                        .content(asJsonString(criteria))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                )
                 .andExpect(status().isOk());
     }
 
@@ -77,7 +93,7 @@ public class userControllerTest {
     }
 
     @Test
-    public void shouldReturnCreatedWhenOrderCreatedSucceed() throws Exception {
+    public void shouldReturnCreatedWhenUserCreatedSucceed() throws Exception {
         //given
         UserInfo userInfo = new UserInfo("Will", 28);
 

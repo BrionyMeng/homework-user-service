@@ -39,6 +39,7 @@ public class UserRepositoryTest {
 
     }
 
+
     private AppUser getMockAppUser() {
         AppUser appUser = new AppUser();
         appUser.setName("Kent");
