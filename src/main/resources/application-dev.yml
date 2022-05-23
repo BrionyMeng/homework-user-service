@@ -8,8 +8,7 @@ spring:
 
   datasource:
     driver-class-name: org.postgresql.Driver
-#    url: jdbc:postgresql://host.docker.internal:5437/user_service
-    url: jdbc:postgresql://localhost:5437/user_service
+    url: jdbc:postgresql://host.docker.internal:5437/user_service
     username: demouser
     password: demopwd
 
@@ -22,14 +21,4 @@ spring:
     password: demopwd
 
 server:
-  port: 8081
-
-
-
-##log config
-#logging:
-#  level:
-#    root: ERROR
-#    org:
-#      springframework: INFO
-#    sql: DEBUG
+  port: 8083
